@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'SourceTrust - Supplier Discovery Operating System',
-  description: 'AI-Assisted Strategic Sourcing & Verified Supplier Intelligence Platform',
+  title: 'Constellar - Innovate. Connect. Build. | Precision Supplier Discovery OS',
+  description: 'AI-Powered Precision Supplier Discovery & Strategic Sourcing Operating System',
 };
 
 export default function RootLayout({

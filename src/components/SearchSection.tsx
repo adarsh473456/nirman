@@ -58,7 +58,7 @@ export function SearchSection({
         {/* Top Trust Badge */}
         <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-navy-850/90 border border-brand-500/30 text-brand-300 text-xs font-semibold shadow-lg backdrop-blur-md">
           <Sparkles className="w-3.5 h-3.5 text-brand-400 animate-spin-slow" />
-          <span>Strategic Sourcing Operating System • Verification with Teeth</span>
+          <span>CONSTELLAR Discovery OS • Innovate. Connect. Build. • Verification with Teeth</span>
         </div>
         
         <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">

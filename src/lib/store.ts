@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Supplier, RFQ, UserRole, SearchFilterState, RfqQuote, AppTheme, SourcingOrder } from '../types';
+import { useState } from 'react';
+import { Supplier, RFQ, UserRole, SearchFilterState, RfqQuote, AppTheme, SourcingOrder, UserProfile } from '../types';
 import { INITIAL_SUPPLIERS } from '../data/mockSuppliers';
 import { rankSuppliers, RankedSupplierResult } from './rankingAlgorithm';
 
@@ -108,6 +108,8 @@ const INITIAL_RFQS: RFQ[] = [
 ];
 
 export function useAppStore() {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [role, setRole] = useState<UserRole>('buyer');
   const [theme, setThemeState] = useState<AppTheme>('light');
   const [suppliers, setSuppliers] = useState<Supplier[]>(INITIAL_SUPPLIERS);
@@ -140,6 +142,28 @@ export function useAppStore() {
 
   // Compute ranked suppliers
   const rankedResults = rankSuppliers(suppliers, filters);
+
+  // Sign In / Authenticate User
+  const signInUser = (
+    newRole: UserRole, 
+    profile?: Partial<UserProfile>,
+    supplierId?: string
+  ) => {
+    setRole(newRole);
+    if (supplierId) {
+      setActiveSupplierId(supplierId);
+    }
+    setCurrentUser({
+      name: profile?.name || (newRole === 'buyer' ? 'Vikram Mehta' : newRole === 'supplier' ? 'Rajesh Sharma' : 'Platform Auditor'),
+      email: profile?.email || (newRole === 'buyer' ? 'v.mehta@zenithaero.com' : newRole === 'supplier' ? 'info@precisiontech-dyn.com' : 'audit@constellar.os'),
+      company: profile?.company || (newRole === 'buyer' ? 'Zenith Aero Robotics' : newRole === 'supplier' ? 'PrecisionTech Dynamics' : 'Constellar Bureau'),
+      role: newRole,
+      industry: profile?.industry,
+      categoryNeed: profile?.categoryNeed,
+    });
+    setIsAuthenticated(true);
+    setActiveTab('discover');
+  };
 
   // Bookmark actions
   const toggleBookmark = (supplierId: string) => {
@@ -230,12 +254,28 @@ export function useAppStore() {
   const registerNewSupplier = (newSupplier: Supplier) => {
     setSuppliers(prev => [newSupplier, ...prev]);
     setActiveSupplierId(newSupplier.id);
+    setIsAuthenticated(true);
+    setRole('supplier');
+    setCurrentUser({
+      name: newSupplier.contact.contactPerson,
+      email: newSupplier.contact.email,
+      company: newSupplier.name,
+      role: 'supplier',
+    });
   };
 
   // Supplier logs in
   const loginSupplier = (supplierId: string) => {
     setActiveSupplierId(supplierId);
     setRole('supplier');
+    const sup = suppliers.find(s => s.id === supplierId);
+    setCurrentUser({
+      name: sup?.contact.contactPerson || 'Manufacturer',
+      email: sup?.contact.email || 'plant@supplier.com',
+      company: sup?.name || 'Manufacturing Plant',
+      role: 'supplier',
+    });
+    setIsAuthenticated(true);
   };
 
   // Supplier edits profile
@@ -243,14 +283,20 @@ export function useAppStore() {
     setSuppliers(prev => prev.map(s => s.id === updated.id ? updated : s));
   };
 
-  // Log Out
+  // Log Out (Returns user to Initial Landing Gateway)
   const logOut = () => {
+    setIsAuthenticated(false);
+    setCurrentUser(null);
     setRole('buyer');
     setActiveTab('discover');
     setFilters(INITIAL_FILTERS);
   };
 
   return {
+    isAuthenticated,
+    setIsAuthenticated,
+    currentUser,
+    signInUser,
     role,
     setRole,
     theme,

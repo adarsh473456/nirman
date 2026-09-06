@@ -2,6 +2,15 @@ export type UserRole = 'buyer' | 'supplier' | 'admin';
 
 export type AppTheme = 'light' | 'dark' | 'system';
 
+export interface UserProfile {
+  name: string;
+  email: string;
+  company: string;
+  role: UserRole;
+  industry?: string;
+  categoryNeed?: string;
+}
+
 export interface Certification {
   id: string;
   name: string;

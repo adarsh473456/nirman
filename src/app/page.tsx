@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useAppStore } from '../lib/store';
+import { LandingGateway } from '../components/LandingGateway';
 import { Navbar } from '../components/Navbar';
 import { SearchSection } from '../components/SearchSection';
 import { FilterSidebar } from '../components/FilterSidebar';
@@ -18,6 +19,9 @@ import { Sparkles, Layers, ShieldCheck, ArrowRight, Building2 } from 'lucide-rea
 
 export default function Home() {
   const {
+    isAuthenticated,
+    currentUser,
+    signInUser,
     role,
     setRole,
     theme,
@@ -66,6 +70,20 @@ export default function Home() {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
+  // If the user has not logged in yet, show the Welcome / Initial Landing Gateway Page
+  if (!isAuthenticated) {
+    return (
+      <LandingGateway
+        onAuthenticate={signInUser}
+        onOpenSupplierRegistration={() => setIsSupplierAuthOpen(true)}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
+        suppliers={suppliers}
+      />
+    );
+  }
+
+  // Once authenticated/entered, render the designated workspace
   return (
     <div className="min-h-screen flex flex-col bg-navy-50 dark:bg-navy-950 text-navy-950 dark:text-navy-50 selection:bg-brand-500 selection:text-white transition-colors duration-200">
       {/* Top Sticky Enterprise Navbar */}
@@ -83,6 +101,8 @@ export default function Home() {
         onOpenComparison={() => setIsComparisonOpen(true)}
         onOpenSupplierAuth={() => setIsSupplierAuthOpen(true)}
         onOpenSettings={() => setIsSettingsOpen(true)}
+        onExitToLanding={logOut}
+        currentUser={currentUser}
         activeSupplierName={currentSupplier?.name}
       />
 
@@ -280,13 +300,13 @@ export default function Home() {
       <footer className="bg-navy-950 text-white border-t border-navy-800/80 py-10 px-4 sm:px-6 lg:px-8 mt-16">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-navy-400">
           <div className="flex items-center space-x-3.5">
-            <div className="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white font-extrabold text-xs shadow-md">
-              ST
+            <div className="relative w-8 h-8 flex items-center justify-center">
+              <img src="/constellar-logo.png" alt="Constellar" className="w-8 h-8 object-contain" />
             </div>
             <div>
-              <span className="font-extrabold text-white text-sm">SourceTrust Discovery OS</span>
+              <span className="font-extrabold text-white text-sm">CONSTELLAR Discovery OS</span>
               <span className="mx-2 text-navy-600">•</span>
-              <span className="text-navy-300">Verification with Teeth · Curation over Volume</span>
+              <span className="text-navy-300">Innovate. Connect. Build.</span>
             </div>
           </div>
 

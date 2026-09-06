@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { UserRole, AppTheme } from '../types';
+import { UserRole, AppTheme, UserProfile } from '../types';
 import { 
   ShieldCheck, 
   Search, 
@@ -15,7 +15,9 @@ import {
   Settings,
   Sun,
   Moon,
-  ShoppingBag
+  ShoppingBag,
+  LogOut,
+  Sparkles
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -32,6 +34,8 @@ interface NavbarProps {
   onOpenComparison: () => void;
   onOpenSupplierAuth: () => void;
   onOpenSettings: () => void;
+  onExitToLanding?: () => void;
+  currentUser?: UserProfile | null;
   activeSupplierName?: string;
 }
 
@@ -49,26 +53,37 @@ export function Navbar({
   onOpenComparison,
   onOpenSupplierAuth,
   onOpenSettings,
+  onExitToLanding,
+  currentUser,
   activeSupplierName,
 }: NavbarProps) {
   return (
     <header className="sticky top-0 z-40 bg-navy-950/95 dark:bg-navy-950/95 text-white border-b border-navy-800/90 shadow-lg backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Brand Logo & Tagline */}
-          <div className="flex items-center space-x-3.5 cursor-pointer" onClick={() => { setRole('buyer'); setActiveTab('discover'); }}>
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 via-brand-600 to-brand-800 flex items-center justify-center shadow-[0_0_20px_rgba(2,132,199,0.35)]">
-              <Layers className="w-6 h-6 text-white" />
+          
+          {/* Brand Logo & Tagline — CONSTELLAR */}
+          <div 
+            className="flex items-center space-x-3 cursor-pointer group" 
+            onClick={() => { setRole('buyer'); setActiveTab('discover'); }}
+            title="Constellar Discovery OS"
+          >
+            <div className="relative w-10 h-10 flex items-center justify-center">
+              <img 
+                src="/constellar-logo.png" 
+                alt="CONSTELLAR Logo" 
+                className="w-9 h-9 object-contain group-hover:scale-110 transition duration-300 animate-constellar-roll"
+              />
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="font-extrabold text-lg tracking-tight text-white">SourceTrust</span>
+                <span className="font-black text-lg tracking-wider text-white">CONSTELLAR</span>
                 <span className="text-[10px] uppercase font-bold px-2 py-0.5 bg-brand-950 text-brand-300 border border-brand-500/40 rounded-full">
                   OS Pilot
                 </span>
               </div>
-              <p className="text-[11px] text-navy-400 hidden sm:block">
-                Strategic Sourcing & Verified Supplier Discovery
+              <p className="text-[10px] tracking-wider uppercase text-navy-400 font-semibold hidden sm:block">
+                Innovate. Connect. Build.
               </p>
             </div>
           </div>
@@ -215,6 +230,17 @@ export function Navbar({
                 <span className="hidden sm:inline">Admin</span>
               </button>
             </div>
+
+            {/* Return to Initial Landing / Sign Out Button */}
+            {onExitToLanding && (
+              <button
+                onClick={onExitToLanding}
+                className="p-2 rounded-xl bg-navy-900 hover:bg-red-950/60 border border-navy-700 hover:border-red-500/50 text-navy-400 hover:text-red-400 transition"
+                title="Sign Out / Return to Welcome Gateway"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            )}
           </div>
         </div>
       </div>

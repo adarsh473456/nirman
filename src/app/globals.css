@@ -17,11 +17,23 @@
   --color-card-foreground: #020617;
   --color-muted: #E8ECF1;
   --color-muted-foreground: #475569;
-  --color-border: #E2E8F0;
+  --color-border: #2C333A;
   --color-destructive: #DC2626;
   --color-on-destructive: #FFFFFF;
   --color-ring: #0284C7;
   --color-verified: #10B981;
+
+  --color-bg: #101214;
+  --color-surface: #161A1D;
+  --color-muted-surface: #1D2125;
+  --color-text-secondary: #596773;
+  --color-text-primary: #C7D1DB;
+  --color-heading: #DEE4EA;
+  --spacing-6: 1.5rem;
+  --rounded-lg: 0.5rem;
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  --color-text-primary-rgb: 199, 209, 219;
+  --color-bg-2: #C7D1DB;
 }
 
 .dark {
@@ -37,11 +49,20 @@
   --color-card-foreground: #F8FAFC;
   --color-muted: #1E293B;
   --color-muted-foreground: #94A3B8;
-  --color-border: #1E293B;
+  --color-border: #2C333A;
   --color-destructive: #EF4444;
   --color-on-destructive: #FFFFFF;
   --color-ring: #38BDF8;
   --color-verified: #10B981;
+
+  --color-bg: #101214;
+  --color-surface: #161A1D;
+  --color-muted-surface: #1D2125;
+  --color-text-secondary: #596773;
+  --color-text-primary: #C7D1DB;
+  --color-heading: #DEE4EA;
+  --color-bg-2: #C7D1DB;
+  --color-text-primary-rgb: 199, 209, 219;
 }
 
 body {
@@ -87,6 +108,40 @@ body {
 
 .dark .card-3d-hover:hover {
   box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.2);
+}
+
+/* Constellar Logo 3D Roll & Orbit Keyframes */
+@keyframes constellarRollBack {
+  0% {
+    transform: scale(1.15) rotate(0deg) translate3d(0, 0, 0);
+    opacity: 0.9;
+  }
+  40% {
+    transform: scale(0.9) rotate(-15deg) translate3d(-30px, -10px, 0);
+  }
+  100% {
+    transform: scale(1) rotate(0deg) translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes constellarOrbitFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.35));
+  }
+  50% {
+    transform: translateY(-8px) rotate(3deg);
+    filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.65)) drop-shadow(0 0 40px rgba(245, 158, 11, 0.3));
+  }
+}
+
+.animate-constellar-roll {
+  animation: constellarRollBack 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-constellar-orbit {
+  animation: constellarOrbitFloat 6s ease-in-out infinite;
 }
 
 /* Keyframe animations */
