@@ -4,6 +4,7 @@ import React, { FormEvent, useState } from 'react';
 import { Activity, ArrowRight, ArrowUpRight, Boxes, CheckCircle2, ChevronRight, Cpu, FileText, Globe2, Layers, LockKeyhole, LucideIcon, MapPin, Orbit, PhoneCall, Rocket, Search, ShieldCheck, Sparkles, Wrench } from 'lucide-react';
 import { UserRole, UserProfile, Supplier } from '../types';
 import LoginOne from './ui/login-1';
+import { assetPath } from '../lib/assetPath';
 
 interface MarketplaceLandingProps {
   onAuthenticate: (role: UserRole, profile?: Partial<UserProfile>, supplierId?: string) => void;
@@ -85,7 +86,7 @@ export function MarketplaceLanding({ onAuthenticate, onOpenSupplierRegistration,
       <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur">
         <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           <a href="#" className="flex min-w-0 items-center gap-3" aria-label="Constellar home">
-            <img src="/constellar-logo.png" alt="" className="h-10 w-10 object-contain" />
+            <img src={assetPath('/constellar-logo.png')} alt="" className="h-10 w-10 object-contain" />
             <span><span className="block text-lg font-black tracking-[0.13em] text-[#102448]">CONSTELLAR</span><span className="hidden text-[9px] font-bold uppercase tracking-[0.2em] text-slate-500 sm:block">Space industry sourcing</span></span>
           </a>
           <nav className="hidden items-center gap-7 text-sm font-semibold text-slate-600 lg:flex">
@@ -219,7 +220,7 @@ export function MarketplaceLanding({ onAuthenticate, onOpenSupplierRegistration,
 
       <footer className="bg-[#0a1932] text-white">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 py-9 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
-          <div className="sm:col-span-2"><div className="flex items-center gap-3"><img src="/constellar-logo.png" alt="" className="h-9 w-9 object-contain" /><span className="text-sm font-black tracking-[0.15em]">CONSTELLAR</span></div><p className="mt-3 max-w-md text-xs leading-5 text-slate-400">A supplier discovery and sourcing workspace for the space industry. Search, qualify, request quotes and track progress in one place.</p></div>
+          <div className="sm:col-span-2"><div className="flex items-center gap-3"><img src={assetPath('/constellar-logo.png')} alt="" className="h-9 w-9 object-contain" /><span className="text-sm font-black tracking-[0.15em]">CONSTELLAR</span></div><p className="mt-3 max-w-md text-xs leading-5 text-slate-400">A supplier discovery and sourcing workspace for the space industry. Search, qualify, request quotes and track progress in one place.</p></div>
           <div><h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-200">For buyers</h3><button onClick={() => onExplore('')} className="mt-3 block text-left text-xs text-slate-400 hover:text-white">Find suppliers</button><button onClick={onPostRequirement} className="mt-2 block text-left text-xs text-slate-400 hover:text-white">Post a requirement</button></div>
           <div><h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-200">For suppliers</h3><button onClick={onOpenSupplierRegistration} className="mt-3 block text-left text-xs text-slate-400 hover:text-white">List capabilities</button><button onClick={() => setShowLogin(true)} className="mt-2 block text-left text-xs text-slate-400 hover:text-white">Supplier sign in</button></div>
         </div>

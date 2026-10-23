@@ -13,6 +13,7 @@ import { ComparisonModal } from '../components/ComparisonModal';
 import { SupplierAuthModal } from '../components/SupplierAuthModal';
 import { SettingsModal } from '../components/SettingsModal';
 import { PostRequirementModal } from '../components/PostRequirementModal';
+import { assetPath } from '../lib/assetPath';
 import { BuyerDashboard } from '../components/BuyerDashboard';
 import { SupplierDashboard } from '../components/SupplierDashboard';
 import { AdminDashboard } from '../components/AdminDashboard';
@@ -348,7 +349,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-navy-400">
           <div className="flex items-center space-x-3.5">
             <div className="relative w-8 h-8 flex items-center justify-center">
-              <img src="/constellar-logo.png" alt="Constellar" className="w-8 h-8 object-contain" />
+              <img src={assetPath('/constellar-logo.png')} alt="Constellar" className="w-8 h-8 object-contain" />
             </div>
             <div>
               <span className="font-extrabold text-white text-sm">CONSTELLAR Discovery OS</span>

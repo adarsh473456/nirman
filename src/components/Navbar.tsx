@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { assetPath } from '../lib/assetPath';
 import { UserRole, AppTheme, UserProfile } from '../types';
 import { 
   ShieldCheck, 
@@ -72,7 +73,7 @@ export function Navbar({
           >
             <div className="relative w-10 h-10 flex items-center justify-center">
               <img 
-                src="/constellar-logo.png" 
+                src={assetPath('/constellar-logo.png')}
                 alt="CONSTELLAR Logo" 
                 className="w-9 h-9 object-contain group-hover:scale-110 transition duration-300 animate-constellar-roll"
               />

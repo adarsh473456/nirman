@@ -5,6 +5,7 @@ import { UserRole, AppTheme, UserProfile, Supplier } from '../types';
 import { BlackHoleHeroSection } from './ui/blackhole-hero-section';
 import { DotPattern } from './ui/dot-pattern';
 import LoginOne from './ui/login-1';
+import { assetPath } from '../lib/assetPath';
 import { 
   ShieldCheck, 
   Sparkles, 
@@ -90,7 +91,7 @@ export function LandingGateway({
           <div className="flex items-center space-x-3.5 group cursor-pointer">
             <div className="relative w-12 h-12 flex items-center justify-center">
               <img 
-                src="/constellar-logo.png" 
+                src={assetPath('/constellar-logo.png')}
                 alt="CONSTELLAR Logo" 
                 className={`w-11 h-11 object-contain transition-all duration-700 ${isTransitioning ? 'animate-constellar-roll' : 'animate-constellar-orbit'}`}
               />
