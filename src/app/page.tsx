@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useAppStore } from '../lib/store';
-import { LandingGateway } from '../components/LandingGateway';
+import { MarketplaceLanding } from '../components/MarketplaceLanding';
 import { Navbar } from '../components/Navbar';
 import { SearchSection } from '../components/SearchSection';
 import { FilterSidebar } from '../components/FilterSidebar';
@@ -12,6 +12,7 @@ import { RfqModal } from '../components/RfqModal';
 import { ComparisonModal } from '../components/ComparisonModal';
 import { SupplierAuthModal } from '../components/SupplierAuthModal';
 import { SettingsModal } from '../components/SettingsModal';
+import { PostRequirementModal } from '../components/PostRequirementModal';
 import { BuyerDashboard } from '../components/BuyerDashboard';
 import { SupplierDashboard } from '../components/SupplierDashboard';
 import { AdminDashboard } from '../components/AdminDashboard';
@@ -41,6 +42,8 @@ export default function Home() {
     rfqs,
     orders,
     submitRfq,
+    submitGeneralRequirement,
+    routeRfqToSupplier,
     respondToRfq,
     acceptQuote,
     toggleSupplierVerification,
@@ -54,6 +57,8 @@ export default function Home() {
     setIsComparisonOpen,
     isSupplierAuthOpen,
     setIsSupplierAuthOpen,
+    isRequirementOpen,
+    setIsRequirementOpen,
     isSettingsOpen,
     setIsSettingsOpen,
     activeTab,
@@ -70,16 +75,45 @@ export default function Home() {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
-  // If the user has not logged in yet, show the Welcome / Initial Landing Gateway Page
+  const enterBuyerSearch = (query: string) => {
+    setFilters(prev => ({ ...prev, query, isAiQuery: false }));
+    signInUser('buyer', {
+      name: 'Guest Sourcing Officer',
+      email: 'guest@constellar.demo',
+      company: 'Asterion Satellite Systems',
+      role: 'buyer',
+    });
+  };
+
+  const startSourcingRequest = () => {
+    signInUser('buyer', {
+      name: 'Guest Sourcing Officer',
+      email: 'guest@constellar.demo',
+      company: 'Asterion Satellite Systems',
+      role: 'buyer',
+    });
+    setIsRequirementOpen(true);
+  };
+
+  // Public marketplace catalog is the entry point; role workspaces remain behind sign-in.
   if (!isAuthenticated) {
     return (
-      <LandingGateway
-        onAuthenticate={signInUser}
-        onOpenSupplierRegistration={() => setIsSupplierAuthOpen(true)}
-        theme={theme}
-        onToggleTheme={handleToggleTheme}
-        suppliers={suppliers}
-      />
+      <>
+        <MarketplaceLanding
+          onAuthenticate={signInUser}
+          onOpenSupplierRegistration={() => setIsSupplierAuthOpen(true)}
+          onExplore={enterBuyerSearch}
+        onPostRequirement={startSourcingRequest}
+          suppliers={suppliers}
+        />
+        <SupplierAuthModal
+          isOpen={isSupplierAuthOpen}
+          onClose={() => setIsSupplierAuthOpen(false)}
+          suppliers={suppliers}
+          onLoginSupplier={loginSupplier}
+          onRegisterSupplier={registerNewSupplier}
+        />
+      </>
     );
   }
 
@@ -101,6 +135,7 @@ export default function Home() {
         onOpenComparison={() => setIsComparisonOpen(true)}
         onOpenSupplierAuth={() => setIsSupplierAuthOpen(true)}
         onOpenSettings={() => setIsSettingsOpen(true)}
+          onPostRequirement={startSourcingRequest}
         onExitToLanding={logOut}
         currentUser={currentUser}
         activeSupplierName={currentSupplier?.name}
@@ -156,7 +191,7 @@ export default function Home() {
                     </div>
 
                     {/* Right Results Column */}
-                    <div className="lg:col-span-3 space-y-5">
+                    <div id="supplier-results" className="scroll-mt-24 lg:col-span-3 space-y-5">
                       {/* Results Header Bar */}
                       <div className="flex flex-wrap items-center justify-between gap-3 bg-white dark:bg-navy-900 p-4 sm:p-5 rounded-2xl border border-navy-200/90 dark:border-navy-800 shadow-card">
                         <div className="flex items-center space-x-2.5">
@@ -251,6 +286,7 @@ export default function Home() {
             suppliers={suppliers}
             rfqs={rfqs}
             onToggleVerification={toggleSupplierVerification}
+            onRouteRfq={routeRfqToSupplier}
           />
         )}
       </main>
@@ -267,6 +303,17 @@ export default function Home() {
         onClose={() => setSelectedSupplierForRfq(null)}
         onSubmit={submitRfq}
       />
+
+      {isRequirementOpen && (
+        <PostRequirementModal
+          onClose={() => setIsRequirementOpen(false)}
+          onSubmit={(requirement) => {
+            const created = submitGeneralRequirement(requirement);
+            setActiveTab('my-rfqs');
+            return created;
+          }}
+        />
+      )}
 
       <ComparisonModal
         isOpen={isComparisonOpen}

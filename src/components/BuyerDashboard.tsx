@@ -33,6 +33,13 @@ export function BuyerDashboard({
 }: BuyerDashboardProps) {
   const getStatusBadge = (status: RFQ['status']) => {
     switch (status) {
+      case 'under_review':
+        return (
+          <span className="inline-flex items-center space-x-1 rounded-full border border-sky-300 bg-sky-50 px-2.5 py-1 text-xs font-semibold text-sky-800">
+            <Clock className="h-3.5 w-3.5 text-sky-700" />
+            <span>Under Constellar review</span>
+          </span>
+        );
       case 'submitted':
         return (
           <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-300">

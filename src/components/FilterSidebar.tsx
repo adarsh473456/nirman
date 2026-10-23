@@ -90,11 +90,11 @@ export function FilterSidebar({ filters, setFilters, totalResults }: FilterSideb
         </label>
       </div>
 
-      {/* Manufacturing Categories */}
+      {/* Space Supply Categories */}
       <div className="space-y-2.5">
         <h3 className="text-xs font-bold uppercase tracking-wider text-navy-600 flex items-center space-x-1.5">
           <Layers className="w-3.5 h-3.5 text-navy-400" />
-          <span>Manufacturing Process</span>
+          <span>Supplier capability</span>
         </h3>
         <div className="space-y-1.5">
           {CATEGORIES.map(category => (

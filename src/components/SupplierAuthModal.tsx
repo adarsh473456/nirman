@@ -311,7 +311,7 @@ export function SupplierAuthModal({
                     <Mail className="w-4 h-4 text-navy-400 absolute left-3 top-3.5" />
                     <input
                       type="email"
-                      defaultValue="sourcing@precisiontech-dyn.com"
+                      defaultValue="sourcing@orbital.example"
                       placeholder="corporate.email@company.com"
                       className="w-full pl-9 p-3 bg-navy-50 border border-navy-300 rounded-xl text-navy-950 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-brand-500"
                     />

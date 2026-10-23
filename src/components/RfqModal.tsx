@@ -13,7 +13,8 @@ import {
   Clock, 
   AlertCircle,
   FileCode2,
-  Trash2
+  Trash2,
+  ShieldCheck,
 } from 'lucide-react';
 import { POPULAR_MATERIALS, CERTIFICATIONS_LIST } from '../data/defaultCategories';
 
@@ -62,8 +63,8 @@ export function RfqModal({ supplier, onClose, onSubmit }: RfqModalProps) {
     onSubmit({
       buyerId: 'buyer-demo',
       buyerName: 'Vikram Mehta',
-      buyerCompany: 'Zenith Aero Robotics',
-      buyerEmail: 'v.mehta@zenithaero.com',
+      buyerCompany: 'Asterion Satellite Systems',
+      buyerEmail: 'v.mehta@asterion.example',
       supplierId: supplier.id,
       supplierName: supplier.name,
       title,
@@ -116,13 +117,17 @@ export function RfqModal({ supplier, onClose, onSubmit }: RfqModalProps) {
             <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto animate-bounce">
               <CheckCircle2 className="w-8 h-8" />
             </div>
-            <h3 className="text-lg font-bold text-navy-950">RFQ Dispatched Successfully!</h3>
+            <h3 className="text-lg font-bold text-navy-950">Request added to the sourcing workspace</h3>
             <p className="text-xs text-navy-600 max-w-sm mx-auto">
-              Your quote request has been sent to <strong>{supplier.name}</strong>. You can track status updates in your Buyer Dashboard.
+              This demo has added the RFQ to the buyer and supplier workspaces. No external call, email, or message has been placed.
             </p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="p-6 space-y-4 text-xs overflow-y-auto max-h-[75vh]">
+            <div className="flex items-start gap-2.5 rounded-xl border border-sky-200 bg-sky-50 p-3 text-xs text-sky-950">
+              <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-sky-700" />
+              <p><strong>Platform-routed request.</strong> The supplier receives the requirement in their workspace; direct phone and email stay out of the public profile. In this prototype, routing is local demo state only.</p>
+            </div>
             {/* Part Name / Title */}
             <div>
               <label className="block text-navy-800 font-bold mb-1">
@@ -133,7 +138,7 @@ export function RfqModal({ supplier, onClose, onSubmit }: RfqModalProps) {
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="e.g. 5-Axis CNC Milled Titanium Drone Rotor Arm"
+                placeholder="e.g. 5-axis titanium star tracker mounting bracket"
                 className="w-full p-2.5 bg-navy-50 border border-navy-300 rounded-lg text-navy-900 focus:bg-white focus:ring-2 focus:ring-brand-500 text-xs font-medium"
               />
             </div>

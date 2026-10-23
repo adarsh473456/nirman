@@ -11,9 +11,8 @@ import {
   Wrench, 
   Building2, 
   Clock, 
-  Phone, 
-  Mail, 
-  Globe, 
+  PhoneCall,
+  Mail,
   FileCheck2, 
   ArrowRight,
   CheckCircle2,
@@ -35,7 +34,6 @@ export function SupplierProfileModal({
   onRequestQuote,
 }: SupplierProfileModalProps) {
   const [activeTab, setActiveTab] = useState<'overview' | 'machinery' | 'certifications' | 'contact'>('overview');
-  const [showFullContact, setShowFullContact] = useState(false);
 
   if (!supplier) return null;
 
@@ -330,12 +328,12 @@ export function SupplierProfileModal({
               <div className="p-4 bg-navy-50 rounded-xl border border-navy-200">
                 <div className="flex items-center justify-between">
                   <h3 className="text-xs font-bold uppercase tracking-wider text-navy-900">
-                    Progressive Sourcing Contact
+                    Private, platform-routed contact
                   </h3>
-                  <span className="text-[11px] text-navy-500">Anti-Scraping Protection</span>
+                  <span className="text-[11px] text-emerald-700 font-semibold">Contact details protected</span>
                 </div>
                 <p className="text-xs text-navy-600 mt-1">
-                  Full direct phone and direct plant addresses are unlocked for registered sourcing teams to avoid unsolicited marketing.
+                  Use the sourcing request below to reach this supplier. Direct phone, email and full address are not shown on public profiles.
                 </p>
               </div>
 
@@ -352,20 +350,18 @@ export function SupplierProfileModal({
 
                 <div className="pt-3 border-t border-navy-100 space-y-2 text-xs">
                   <div className="flex items-center space-x-2">
-                    <Mail className="w-4 h-4 text-navy-400" />
-                    <span className="font-medium text-navy-800">{supplier.contact.email}</span>
+                    <PhoneCall className="w-4 h-4 text-brand-600" />
+                    <span className="font-semibold text-navy-800">Direct supplier phone stays private</span>
                   </div>
 
                   <div className="flex items-center space-x-2">
-                    <Globe className="w-4 h-4 text-navy-400" />
-                    <a href={supplier.contact.website} target="_blank" rel="noreferrer" className="font-medium text-brand-600 hover:underline">
-                      {supplier.contact.website}
-                    </a>
+                    <Mail className="w-4 h-4 text-brand-600" />
+                    <span className="font-semibold text-navy-800">Supplier replies stay in your RFQ workspace</span>
                   </div>
 
                   <div className="flex items-start space-x-2">
                     <MapPin className="w-4 h-4 text-navy-400 mt-0.5" />
-                    <span className="text-navy-700">{supplier.contact.address}</span>
+                    <span className="text-navy-700">{supplier.location.city}, {supplier.location.state} · exact facility address kept private</span>
                   </div>
                 </div>
               </div>

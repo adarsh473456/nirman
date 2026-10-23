@@ -19,9 +19,9 @@ const INITIAL_ORDERS: SourcingOrder[] = [
   {
     id: 'PO-2026-8901',
     rfqId: 'rfq-801',
-    partName: 'Titanium 5-Axis Gimbal Bracket',
-    supplierName: 'PrecisionTech Dynamics',
-    buyerCompany: 'Zenith Aero Robotics',
+    partName: 'Titanium Star Tracker Mount',
+    supplierName: 'Orbital Precision Systems',
+    buyerCompany: 'Asterion Satellite Systems',
     quantity: 50,
     unitPrice: 165,
     totalAmount: 8700,
@@ -34,9 +34,9 @@ const INITIAL_ORDERS: SourcingOrder[] = [
   {
     id: 'PO-2026-8902',
     rfqId: 'rfq-802',
-    partName: 'Aluminum Server Rack Enclosure (RAL 9005)',
-    supplierName: 'Apex Sheet Metal Systems',
-    buyerCompany: 'Zenith Aero Robotics',
+    partName: 'Aluminium Satellite Avionics Chassis',
+    supplierName: 'Launchframe Structures',
+    buyerCompany: 'Asterion Satellite Systems',
     quantity: 100,
     unitPrice: 62,
     totalAmount: 6200,
@@ -53,11 +53,11 @@ const INITIAL_RFQS: RFQ[] = [
     id: 'rfq-801',
     buyerId: 'buyer-demo',
     buyerName: 'Vikram Mehta',
-    buyerCompany: 'Zenith Aero Robotics',
-    buyerEmail: 'v.mehta@zenithaero.com',
+    buyerCompany: 'Asterion Satellite Systems',
+    buyerEmail: 'v.mehta@asterion.example',
     supplierId: 'sup-001',
-    supplierName: 'PrecisionTech Dynamics',
-    title: 'Titanium 5-Axis Gimbal Bracket (Qty 50)',
+    supplierName: 'Orbital Precision Systems',
+    title: 'Titanium Star Tracker Mount (Qty 50)',
     category: 'CNC Machining',
     material: 'Titanium Gr5 (Ti-6Al-4V)',
     quantity: 50,
@@ -73,7 +73,7 @@ const INITIAL_RFQS: RFQ[] = [
     createdAt: '2026-08-18T10:30:00Z',
     quote: {
       supplierId: 'sup-001',
-      supplierName: 'PrecisionTech Dynamics',
+      supplierName: 'Orbital Precision Systems',
       unitPrice: 165,
       currency: 'USD',
       toolingCost: 450,
@@ -87,20 +87,20 @@ const INITIAL_RFQS: RFQ[] = [
     id: 'rfq-802',
     buyerId: 'buyer-demo',
     buyerName: 'Vikram Mehta',
-    buyerCompany: 'Zenith Aero Robotics',
-    buyerEmail: 'v.mehta@zenithaero.com',
+    buyerCompany: 'Asterion Satellite Systems',
+    buyerEmail: 'v.mehta@asterion.example',
     supplierId: 'sup-002',
-    supplierName: 'Apex Sheet Metal Systems',
-    title: 'Aluminum Server Rack Enclosure with Powder Coat',
+    supplierName: 'Launchframe Structures',
+    title: 'Aluminium Satellite Avionics Chassis',
     category: 'Sheet Metal & Fabrication',
     material: 'Aluminum 5052-H32',
     quantity: 100,
     targetUnitBudget: 65,
     targetDeliveryDays: 10,
-    specifications: 'Laser cut 2mm sheet, CNC press brake forming, PEM nut insertion, Matte Black RAL 9005 powder coat.',
+    specifications: 'Lightweight formed chassis, controlled flatness, deburred edges, hardware inserts and material traceability required.',
     certificationsRequired: ['ISO 9001:2015'],
     attachments: [
-      { name: 'Server_Chassis_Drawing_v4.dxf', sizeKb: 2100, type: 'DXF' },
+      { name: 'Satellite_Avionics_Chassis_RevA.dxf', sizeKb: 2100, type: 'DXF' },
     ],
     status: 'submitted',
     createdAt: '2026-08-19T14:20:00Z',
@@ -125,6 +125,7 @@ export function useAppStore() {
   const [selectedSupplierForRfq, setSelectedSupplierForRfq] = useState<Supplier | null>(null);
   const [isComparisonOpen, setIsComparisonOpen] = useState(false);
   const [isSupplierAuthOpen, setIsSupplierAuthOpen] = useState(false);
+  const [isRequirementOpen, setIsRequirementOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'discover' | 'my-rfqs' | 'bookmarks'>('discover');
 
@@ -155,8 +156,8 @@ export function useAppStore() {
     }
     setCurrentUser({
       name: profile?.name || (newRole === 'buyer' ? 'Vikram Mehta' : newRole === 'supplier' ? 'Rajesh Sharma' : 'Platform Auditor'),
-      email: profile?.email || (newRole === 'buyer' ? 'v.mehta@zenithaero.com' : newRole === 'supplier' ? 'info@precisiontech-dyn.com' : 'audit@constellar.os'),
-      company: profile?.company || (newRole === 'buyer' ? 'Zenith Aero Robotics' : newRole === 'supplier' ? 'PrecisionTech Dynamics' : 'Constellar Bureau'),
+      email: profile?.email || (newRole === 'buyer' ? 'v.mehta@asterion.example' : newRole === 'supplier' ? 'info@orbital.example' : 'audit@constellar.example'),
+      company: profile?.company || (newRole === 'buyer' ? 'Asterion Satellite Systems' : newRole === 'supplier' ? 'Orbital Precision Systems' : 'Constellar Bureau'),
       role: newRole,
       industry: profile?.industry,
       categoryNeed: profile?.categoryNeed,
@@ -191,6 +192,30 @@ export function useAppStore() {
     };
     setRfqs(prev => [newRfq, ...prev]);
     return newRfq;
+  };
+
+  const submitGeneralRequirement = (
+    requirement: Omit<RFQ, 'id' | 'createdAt' | 'status' | 'supplierId' | 'supplierName'>
+  ) => {
+    const newRfq: RFQ = {
+      ...requirement,
+      id: 'rfq-' + Date.now(),
+      supplierId: 'marketplace',
+      supplierName: 'Awaiting Constellar Match',
+      status: 'under_review',
+      createdAt: new Date().toISOString(),
+    };
+    setRfqs(prev => [newRfq, ...prev]);
+    return newRfq;
+  };
+
+  const routeRfqToSupplier = (rfqId: string, supplierId: string) => {
+    const target = suppliers.find(supplier => supplier.id === supplierId);
+    if (!target) return;
+    setRfqs(prev => prev.map(rfq => rfq.id === rfqId
+      ? { ...rfq, supplierId: target.id, supplierName: target.name, status: 'submitted' }
+      : rfq
+    ));
   };
 
   // Supplier quote submit
@@ -316,6 +341,8 @@ export function useAppStore() {
     rfqs,
     orders,
     submitRfq,
+    submitGeneralRequirement,
+    routeRfqToSupplier,
     respondToRfq,
     acceptQuote,
     toggleSupplierVerification,
@@ -329,6 +356,8 @@ export function useAppStore() {
     setIsComparisonOpen,
     isSupplierAuthOpen,
     setIsSupplierAuthOpen,
+    isRequirementOpen,
+    setIsRequirementOpen,
     isSettingsOpen,
     setIsSettingsOpen,
     activeTab,

@@ -34,7 +34,7 @@ export interface Supplier {
   id: string;
   name: string;
   tagline: string;
-  category: 'CNC Machining' | 'Sheet Metal & Fabrication' | 'Injection Molding' | 'Electronics & PCBA' | 'Casting & Forging';
+  category: 'CNC Machining' | 'Sheet Metal & Fabrication' | 'Injection Molding' | 'Electronics & PCBA' | 'Casting & Forging' | 'Environmental Test & Qualification';
   subcategories: string[];
   location: {
     city: string;

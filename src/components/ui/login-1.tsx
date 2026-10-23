@@ -77,7 +77,7 @@ export default function LoginOne({
   onOpenSupplierRegistration,
 }: LoginOneProps) {
   const [selectedRole, setSelectedRole] = useState<UserRole>('buyer');
-  const [email, setEmail] = useState('v.mehta@zenithaero.com');
+  const [email, setEmail] = useState('v.mehta@asterion.example');
   const [password, setPassword] = useState('••••••••••••');
   const [mousePosition, setMousePosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
@@ -92,9 +92,9 @@ export default function LoginOne({
 
   const handleRoleChange = (role: UserRole) => {
     setSelectedRole(role);
-    if (role === 'buyer') setEmail('v.mehta@zenithaero.com');
-    else if (role === 'supplier') setEmail('info@precisiontech-dyn.com');
-    else setEmail('compliance@constellar.os');
+    if (role === 'buyer') setEmail('v.mehta@asterion.example');
+    else if (role === 'supplier') setEmail('info@orbital.example');
+    else setEmail('compliance@constellar.example');
   };
 
   const handleSignIn = (e: React.FormEvent) => {
@@ -103,8 +103,8 @@ export default function LoginOne({
     if (selectedRole === 'buyer') {
       onAuthenticate('buyer', {
         name: 'Vikram Mehta',
-        email: email || 'v.mehta@zenithaero.com',
-        company: 'Zenith Aero Robotics',
+        email: email || 'v.mehta@asterion.example',
+        company: 'Asterion Satellite Systems',
         role: 'buyer',
       });
     } else if (selectedRole === 'supplier') {
@@ -112,8 +112,8 @@ export default function LoginOne({
         'supplier',
         {
           name: 'Rajesh Sharma',
-          email: email || 'info@precisiontech-dyn.com',
-          company: 'PrecisionTech Dynamics',
+          email: email || 'info@orbital.example',
+          company: 'Orbital Precision Systems',
           role: 'supplier',
         },
         'sup-001'
@@ -318,17 +318,17 @@ export default function LoginOne({
             <span className="text-zinc-500 font-bold uppercase tracking-wider">Quick:</span>
             <button
               type="button"
-              onClick={() => onAuthenticate && onAuthenticate('buyer', { name: 'Vikram Mehta', email: 'v.mehta@zenithaero.com', company: 'Zenith Aero Robotics', role: 'buyer' })}
+              onClick={() => onAuthenticate && onAuthenticate('buyer', { name: 'Vikram Mehta', email: 'v.mehta@asterion.example', company: 'Asterion Satellite Systems', role: 'buyer' })}
               className="px-2 py-0.5 rounded bg-zinc-900 hover:bg-brand-900/50 text-zinc-300 hover:text-brand-300 font-medium transition"
             >
               Zenith (Buyer)
             </button>
             <button
               type="button"
-              onClick={() => onAuthenticate && onAuthenticate('supplier', { name: 'Rajesh Sharma', email: 'info@precisiontech-dyn.com', company: 'PrecisionTech', role: 'supplier' }, 'sup-001')}
+              onClick={() => onAuthenticate && onAuthenticate('supplier', { name: 'Rajesh Sharma', email: 'info@orbital.example', company: 'Orbital Precision Systems', role: 'supplier' }, 'sup-001')}
               className="px-2 py-0.5 rounded bg-zinc-900 hover:bg-emerald-900/50 text-zinc-300 hover:text-emerald-300 font-medium transition"
             >
-              PrecisionTech
+              Orbital Precision
             </button>
             <button
               type="button"

@@ -32,13 +32,17 @@ export function parseNaturalLanguageQuery(query: string): ParsedQuery {
   if (q.includes('cast') || q.includes('forg') || q.includes('foundry') || q.includes('heat treat')) {
     detectedCategories.push('Casting & Forging');
   }
+  if (q.includes('test') || q.includes('thermal vacuum') || q.includes('vibration') || q.includes('qualification') || q.includes('emc')) {
+    detectedCategories.push('Environmental Test & Qualification');
+  }
 
   // Detect Certifications
   const detectedCertifications: string[] = [];
   if (q.includes('iso 9001') || q.includes('9001')) detectedCertifications.push('ISO 9001:2015');
   if (q.includes('as9100') || q.includes('aerospace') || q.includes('as 9100') || q.includes('flight')) detectedCertifications.push('AS9100D');
-  if (q.includes('iatf') || q.includes('automotive') || q.includes('16949')) detectedCertifications.push('IATF 16949');
-  if (q.includes('13485') || q.includes('medical') || q.includes('biomedical')) detectedCertifications.push('ISO 13485');
+  if (q.includes('ecss') || q.includes('space product assurance')) detectedCertifications.push('ECSS-Q-ST-20C');
+  if (q.includes('14644') || q.includes('cleanroom')) detectedCertifications.push('ISO 14644-1');
+  if (q.includes('17025')) detectedCertifications.push('ISO/IEC 17025');
   if (q.includes('14001') || q.includes('environmental')) detectedCertifications.push('ISO 14001');
   if (q.includes('ipc') || q.includes('610')) detectedCertifications.push('IPC-A-610');
 

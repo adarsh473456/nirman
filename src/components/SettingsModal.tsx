@@ -355,7 +355,7 @@ export function SettingsModal({
                       <label className="block font-bold text-navy-800 dark:text-navy-200 mb-1">Buyer / Company Name</label>
                       <input
                         type="text"
-                        defaultValue="Zenith Aero Robotics Private Limited"
+                        defaultValue="Asterion Satellite Systems"
                         className="w-full p-2.5 bg-navy-50 dark:bg-navy-950 border border-navy-300 dark:border-navy-800 rounded-xl text-xs font-semibold text-navy-950 dark:text-white"
                       />
                     </div>
@@ -374,7 +374,7 @@ export function SettingsModal({
                         <label className="block font-bold text-navy-800 dark:text-navy-200 mb-1">Corporate Email</label>
                         <input
                           type="email"
-                          defaultValue="v.mehta@zenithaero.com"
+                          defaultValue="v.mehta@asterion.example"
                           className="w-full p-2.5 bg-navy-50 dark:bg-navy-950 border border-navy-300 dark:border-navy-800 rounded-xl text-xs font-semibold text-navy-950 dark:text-white"
                         />
                       </div>

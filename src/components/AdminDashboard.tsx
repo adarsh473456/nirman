@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Supplier, RFQ } from '../types';
 import { 
   ShieldCheck, 
@@ -21,15 +21,19 @@ interface AdminDashboardProps {
   suppliers: Supplier[];
   rfqs: RFQ[];
   onToggleVerification: (supplierId: string) => void;
+  onRouteRfq: (rfqId: string, supplierId: string) => void;
 }
 
 export function AdminDashboard({
   suppliers,
   rfqs,
   onToggleVerification,
+  onRouteRfq,
 }: AdminDashboardProps) {
+  const [routingSelection, setRoutingSelection] = useState<Record<string, string>>({});
   const verifiedCount = suppliers.filter(s => s.verified).length;
   const pendingCount = suppliers.length - verifiedCount;
+  const unmatchedRfqs = rfqs.filter(rfq => rfq.supplierId === 'marketplace');
   const quotedCount = rfqs.filter(r => r.status === 'quoted' || r.status === 'accepted').length;
   const quoteResponseRate = rfqs.length > 0 ? Math.round((quotedCount / rfqs.length) * 100) : 100;
 
@@ -58,16 +62,16 @@ export function AdminDashboard({
         </div>
       </div>
 
-      {/* 90-Day Pilot KPIs Section (from Technical Report Section 14) */}
+      {/* Demo workspace KPIs */}
       <section className="space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <TrendingUp className="w-4 h-4 text-brand-600" />
             <h2 className="text-sm font-bold uppercase tracking-wider text-navy-600">
-              90-Day Strategic Launch Metrics
+              Workspace Overview
             </h2>
           </div>
-          <span className="text-xs text-navy-400">Real-time Platform Health</span>
+          <span className="text-xs text-navy-400">Sample workspace data · not live telemetry</span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -75,9 +79,9 @@ export function AdminDashboard({
             <span className="text-xs text-navy-500 font-medium block">Verified Supplier Base</span>
             <div className="flex items-baseline space-x-2 mt-1">
               <span className="text-2xl font-extrabold text-navy-950">{verifiedCount}</span>
-              <span className="text-xs text-emerald-600 font-bold">+{suppliers.length} in catalog</span>
+              <span className="text-xs text-emerald-600 font-bold">{suppliers.length} profiles loaded</span>
             </div>
-            <p className="text-[10px] text-navy-400 mt-1">Supply side trust signal</p>
+            <p className="text-[10px] text-navy-400 mt-1">Sample supplier profiles</p>
           </div>
 
           <div className="bg-white p-4 rounded-xl border border-navy-200 shadow-card">
@@ -93,7 +97,7 @@ export function AdminDashboard({
             <span className="text-xs text-navy-500 font-medium block">RFQ Response Rate</span>
             <div className="flex items-baseline space-x-2 mt-1">
               <span className="text-2xl font-extrabold text-emerald-600">{quoteResponseRate}%</span>
-              <span className="text-xs text-navy-500 font-medium">avg 2.2 hrs</span>
+              <span className="text-xs text-navy-500 font-medium">sample RFQ data</span>
             </div>
             <p className="text-[10px] text-navy-400 mt-1">Direct value metric to buyers</p>
           </div>
@@ -101,12 +105,59 @@ export function AdminDashboard({
           <div className="bg-white p-4 rounded-xl border border-navy-200 shadow-card">
             <span className="text-xs text-navy-500 font-medium block">AI Ranking CTR</span>
             <div className="flex items-baseline space-x-2 mt-1">
-              <span className="text-2xl font-extrabold text-purple-600">84.2%</span>
-              <span className="text-xs text-purple-600 font-bold">Top 3 matches</span>
+            <span className="text-2xl font-extrabold text-purple-600">{unmatchedRfqs.length}</span>
+            <span className="text-xs text-purple-600 font-bold">Needs assignment</span>
             </div>
-            <p className="text-[10px] text-navy-400 mt-1">Ranking formula precision</p>
+            <p className="text-[10px] text-navy-400 mt-1">Buyer requirements awaiting review</p>
           </div>
         </div>
+      </section>
+
+      <section className="space-y-4">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <div className="flex items-center gap-2">
+              <FileText className="h-5 w-5 text-brand-600" />
+              <h2 className="text-lg font-extrabold text-navy-950">Requirement review & supplier routing</h2>
+            </div>
+            <p className="mt-1 text-xs text-navy-500">Qualify incoming requirements, then assign a supplier to place the request in their RFQ inbox.</p>
+          </div>
+          <span className="rounded-full border border-sky-200 bg-sky-50 px-3 py-1.5 text-xs font-bold text-sky-800">{unmatchedRfqs.length} awaiting match</span>
+        </div>
+
+        {unmatchedRfqs.length === 0 ? (
+          <div className="rounded-xl border border-navy-200 bg-white p-6 text-center text-xs text-navy-500 shadow-card">No buyer requirements are waiting for supplier matching.</div>
+        ) : (
+          <div className="space-y-3">
+            {unmatchedRfqs.map(rfq => (
+              <article key={rfq.id} className="rounded-xl border border-navy-200 bg-white p-4 shadow-card sm:p-5">
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-mono text-[11px] font-bold text-navy-400">{rfq.id}</span>
+                      <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-bold text-amber-800">Admin review</span>
+                    </div>
+                    <h3 className="mt-1 text-sm font-extrabold text-navy-950">{rfq.title}</h3>
+                    <p className="mt-1 text-xs text-navy-600">{rfq.buyerCompany} · {rfq.category} · {rfq.material} · Qty {rfq.quantity}</p>
+                    <p className="mt-2 text-xs leading-5 text-navy-700">{rfq.specifications}</p>
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      {rfq.certificationsRequired.map(code => <span key={code} className="rounded bg-navy-100 px-2 py-1 text-[10px] font-bold text-navy-700">{code}</span>)}
+                      {rfq.attachments.map((file, index) => <span key={file.name + index} className="rounded bg-slate-50 px-2 py-1 text-[10px] font-semibold text-slate-600">{file.name}</span>)}
+                    </div>
+                  </div>
+                  <div className="flex w-full flex-col gap-2 lg:w-72">
+                    <label className="text-[11px] font-bold text-navy-700" htmlFor={'route-' + rfq.id}>Assign a matching supplier</label>
+                    <select id={'route-' + rfq.id} value={routingSelection[rfq.id] || ''} onChange={event => setRoutingSelection(current => ({ ...current, [rfq.id]: event.target.value }))} className="w-full rounded-lg border border-navy-300 bg-white px-3 py-2 text-xs text-navy-900 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100">
+                      <option value="">Choose supplier…</option>
+                      {suppliers.map(supplier => <option key={supplier.id} value={supplier.id}>{supplier.name} · {supplier.category}</option>)}
+                    </select>
+                    <button disabled={!routingSelection[rfq.id]} onClick={() => onRouteRfq(rfq.id, routingSelection[rfq.id])} className="rounded-lg bg-brand-700 px-3 py-2 text-xs font-extrabold text-white transition hover:bg-brand-600 disabled:cursor-not-allowed disabled:bg-slate-300">Assign and route RFQ</button>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Supplier Verification Queue Table */}

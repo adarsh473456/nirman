@@ -102,7 +102,8 @@ export function SearchSection({
             )}
 
             <button
-              onClick={() => {}}
+              type="button"
+              onClick={() => document.getElementById('supplier-results')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
               className="m-2 px-6 py-3 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-500 hover:to-brand-600 text-white text-xs sm:text-sm font-bold rounded-xl shadow-lg transition flex items-center space-x-2 flex-shrink-0"
             >
               <Search className="w-4 h-4" />
@@ -196,14 +197,14 @@ export function SearchSection({
           </div>
 
           <div
-            onClick={() => setQuery('medical cleanroom injection molding ISO 13485')}
+            onClick={() => setQuery('satellite avionics electronics assembly ECSS')}
             className="p-4 glass-panel rounded-2xl hover:border-brand-400 cursor-pointer card-3d-hover group"
           >
             <div className="w-9 h-9 rounded-lg bg-purple-600/30 border border-purple-500/40 text-purple-400 flex items-center justify-center group-hover:scale-110 transition">
               <Boxes className="w-5 h-5" />
             </div>
-            <h4 className="font-bold text-white text-xs mt-2.5 group-hover:text-purple-300 transition">Cleanroom Molding</h4>
-            <p className="text-[11px] text-navy-400 mt-0.5">ISO Class 7/8 medical disposables</p>
+            <h4 className="font-bold text-white text-xs mt-2.5 group-hover:text-purple-300 transition">Satellite Environmental Test</h4>
+            <p className="text-[11px] text-navy-400 mt-0.5">Thermal-vacuum · vibration · EMC</p>
           </div>
 
           <div

@@ -140,7 +140,7 @@ export function SupplierDashboard({
                       <h3 className="text-base font-extrabold text-navy-950">{rfq.title}</h3>
                     </div>
                     <div className="flex flex-wrap items-center gap-2 mt-1 text-xs text-navy-600">
-                      <span>Buyer: <strong className="text-navy-900">{rfq.buyerCompany}</strong> ({rfq.buyerName})</span>
+                      <span>Buyer organization: <strong className="text-navy-900">{rfq.buyerCompany}</strong></span>
                       <span>•</span>
                       <span>Required Material: <strong>{rfq.material}</strong></span>
                       <span>•</span>

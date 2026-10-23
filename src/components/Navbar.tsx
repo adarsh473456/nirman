@@ -34,6 +34,7 @@ interface NavbarProps {
   onOpenComparison: () => void;
   onOpenSupplierAuth: () => void;
   onOpenSettings: () => void;
+  onPostRequirement: () => void;
   onExitToLanding?: () => void;
   currentUser?: UserProfile | null;
   activeSupplierName?: string;
@@ -53,6 +54,7 @@ export function Navbar({
   onOpenComparison,
   onOpenSupplierAuth,
   onOpenSettings,
+  onPostRequirement,
   onExitToLanding,
   currentUser,
   activeSupplierName,
@@ -141,6 +143,15 @@ export function Navbar({
 
           {/* Right Actions */}
           <div className="flex items-center space-x-2.5">
+            {role === 'buyer' && (
+              <button
+                onClick={onPostRequirement}
+                className="inline-flex items-center space-x-1.5 rounded-lg bg-sky-700 px-3 py-2 text-xs font-extrabold text-white transition hover:bg-sky-600"
+              >
+                <FileText className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">Post requirement</span>
+              </button>
+            )}
             {/* Compare Floating Button */}
             {role === 'buyer' && compareCount > 0 && (
               <button
